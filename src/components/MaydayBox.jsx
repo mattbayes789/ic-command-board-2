@@ -1,16 +1,9 @@
-import UnitCard from "./UnitCard";
-import { useDroppable } from "@dnd-kit/core";
+import React from "react";
 
-export default function MaydayBox({ units }) {
-  const { setNodeRef } = useDroppable({ id: "mayday" });
-  const assigned = units.filter(u => u.assignment === "mayday");
+const MaydayBox = () => (
+  <div style={{ padding: "1rem", background: "red", color: "white", fontWeight: "bold", margin: "1rem 0" }}>
+    MAYDAY ACTIVE
+  </div>
+);
 
-  return (
-    <div ref={setNodeRef} className="box mayday">
-      <h3>MAYDAY</h3>
-      {assigned.map(u => (
-        <UnitCard key={u.id} unit={u} />
-      ))}
-    </div>
-  );
-}
+export default MaydayBox;
