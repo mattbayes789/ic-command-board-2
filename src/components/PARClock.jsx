@@ -1,24 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function PARClock({ parStart, setParStart, logEvent }) {
-  const [display, setDisplay] = useState("00:00:00");
+const PARClock = ({ logEvent }) => {
+  const [time, setTime] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const diff = Math.floor((Date.now() - parStart) / 1000);
-      const h = String(Math.floor(diff / 3600)).padStart(2, "0");
-      const m = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
-      const s = String(diff % 60).padStart(2, "0");
-      setDisplay(`${h}:${m}:${s}`);
-    }, 1000);
+    const interval = setInterval(() => setTime((t) => t + 1), 1000);
     return () => clearInterval(interval);
-  }, [parStart]);
+  }, []);
+
+  const formatTime = (t) => `${Math.floor(t/60)}:${t%60 < 10 ? "0"+t%60 : t%60}`;
+
+  const checkComplete = () => {
+    logEvent("PAR Check Complete");
+    setTime(0);
+  };
 
   return (
-    <div className="timer-box">
-      <strong>PAR Clock</strong>
-      <div>{display}</div>
-      <button onClick={() => { logEvent("PAR Check logged"); setParStart(Date.now()); }}>Check Complete</button>
+    <div>
+      <h3>PAR Clock: {formatTime(time)}</h3>
+      <button onClick={checkComplete}>Check Complete</button>
     </div>
   );
-}
+};
+
+export default PARClock;
