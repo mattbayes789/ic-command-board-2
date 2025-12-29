@@ -1,0 +1,18 @@
+/* Basic layout for desktop command board */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app.day { background: #f2f2f2; color: #000; }
+.app.night { background: #222; color: #fff; }
+
+.header { display: flex; gap: 10px; padding: 10px; align-items: center; }
+.board { display: flex; gap: 10px; padding: 10px; }
+.box { border: 1px solid #999; padding: 10px; min-width: 150px; border-radius: 5px; background: #eee; }
+.box.command { background: #ccc; }
+.box.mayday { background: #f44336; color: #fff; }
+.unit-card { background: #fff; border: 1px solid #999; margin: 5px 0; padding: 5px; border-radius: 3px; cursor: grab; }
+.timer-box { border: 1px solid #999; padding: 5px; border-radius: 3px; background: #ddd; }
+.incident-log { border-top: 1px solid #999; margin-top: 10px; max-height: 150px; overflow-y: auto; background: #f9f9f9; padding: 5px; }
