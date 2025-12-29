@@ -1,39 +1,21 @@
-import { useDroppable } from "@dnd-kit/core";
-import UnitCard from "./UnitCard";
-import Division from "./Division";
+import React from "react";
 
-export default function AssignmentBox({
-  id,
-  title,
-  units,
-  divisions = [],
-  onAddDivision,
-  onRemoveDivision
-}) {
-  const { setNodeRef } = useDroppable({ id });
-  const directUnits = units.filter(u => u.assignment === id && !u.division);
-
+const AssignmentBox = ({ title, units }) => {
   return (
-    <div ref={setNodeRef} className="box">
-      <div className="box-header">
-        <h3>{title}</h3>
-        {onAddDivision && (
-          <div className="division-controls">
-            <button onClick={() => onAddDivision(id)}>➕</button>
-          </div>
-        )}
-      </div>
-
-      {divisions.map(div => (
-        <div key={div.id}>
-          <Division division={div} units={units} />
-          <button className="remove-division" onClick={() => onRemoveDivision(id, div.id)}>➖ Remove</button>
-        </div>
-      ))}
-
-      {directUnits.map(unit => (
-        <UnitCard key={unit.id} unit={unit} />
+    <div
+      style={{
+        border: "2px dashed #333",
+        padding: "1rem",
+        minHeight: "100px",
+        background: "#f8f8f8"
+      }}
+    >
+      <h3>{title}</h3>
+      {units.map(u => (
+        <div key={u.id}>{u.name}</div>
       ))}
     </div>
   );
-}
+};
+
+export default AssignmentBox;
