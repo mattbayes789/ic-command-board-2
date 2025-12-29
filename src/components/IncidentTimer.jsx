@@ -1,27 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 
-export default function IncidentTimer({ incidentStart, setIncidentStart, logEvent }) {
-  const [running, setRunning] = useState(true);
-  const [display, setDisplay] = useState("00:00:00");
+const IncidentTimer = ({ logEvent }) => {
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!running) return;
-      const diff = Math.floor((Date.now() - incidentStart) / 1000);
-      const h = String(Math.floor(diff / 3600)).padStart(2, "0");
-      const m = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
-      const s = String(diff % 60).padStart(2, "0");
-      setDisplay(`${h}:${m}:${s}`);
-    }, 1000);
+    let interval;
+    if (running) {
+      interval = setInterval(() => setTime((t) => t + 1), 1000);
+    }
     return () => clearInterval(interval);
-  }, [incidentStart, running]);
+  }, [running]);
+
+  const formatTime = (t) => `${Math.floor(t/60)}:${t%60 < 10 ? "0"+t%60 : t%60}`;
 
   return (
-    <div className="timer-box">
-      <strong>Incident</strong>
-      <div>{display}</div>
-      <button onClick={() => setRunning(r => !r)}>{running ? "Stop" : "Start"}</button>
-      <button onClick={() => { setIncidentStart(Date.now()); logEvent("Incident clock reset"); }}>Reset</button>
+    <div>
+      <h3>Incident Timer: {formatTime(time)}</h3>
+      <button onClick={() => setRunning(!running)}>{running ? "Stop" : "Start"}</button>
+      <button onClick={() => { setTime(0); logEvent("Incident Timer Reset"); }}>Reset</button>
     </div>
   );
-}
+};
+
+export default IncidentTimer;
